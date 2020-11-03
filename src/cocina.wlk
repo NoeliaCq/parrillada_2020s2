@@ -10,8 +10,9 @@ object cocina {
 	method cantPlatosCarnivoros() {
 		return comidas.count({plato=> not plato.esAptoVegetariano()})
 	}
-	// opté por poner el valor absoluto de la diferencia pero con el método así como está,
-	//si hay 10 platos vegetarianos y 5 carnivoros igual retorna false, y por logica no debería.
+	/*opté por poner el valor absoluto de la diferencia para respetar el enunciado pero con el método así como está,
+	si hay 10 platos vegetarianos y 5 carnivoros igual retorna false, y por logica no debería...*/
+	
 	method tieneBuenaOfertaVegetariana() {
 		return (self.cantPlatosVegetarianos() - self.cantPlatosCarnivoros()).abs() <= 2
 	}
@@ -24,7 +25,7 @@ object cocina {
 	method comidasQueLeGustanA(unComensal) {
 		return comidas.filter({plato=> unComensal.leAgrada(plato)})
 	}
-	//revisar!
+
 	method elegirPlatoPara(unComensal) {
 		if(self.comidasQueLeGustanA(unComensal).isEmpty()) {
 			self.error("No hay platos disponibles para este comensal")

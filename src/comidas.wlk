@@ -19,7 +19,7 @@ class Provoleta inherits Comida {
 	override method valoracion() {
 		return if(self.esEspecial()) {120} else {80}
 	}
-}  ////pan: objetos!
+}  
 
 class HamburguesaCarne inherits Comida {
 	var property pan
