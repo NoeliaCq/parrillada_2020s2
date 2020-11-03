@@ -1,3 +1,55 @@
 import comidas.*
 import comensales.*
 import cocina.*
+
+test "comidas y comensales" {
+	
+	//comidas	
+	const paty = new HamburguesaCarne(pan = panCasero)
+	const patyveggie = new HamburguesaVegetariana(pan = panMasaMadre, legumbre = "garbanzos")
+	const provo = new Provoleta(peso = 190, tieneEspecias = true)
+	const burger = new HamburguesaCarne(pan = panMasaMadre)
+	const asado = new Corte(nombre = "asado", calidad = 10, peso = 250)
+	const entrania = new Corte(nombre = "entrania", calidad = 7, peso = 200)
+	const chori = new Corte(nombre = "chori", calidad = 8, peso = 50)
+	const parri = new Parrillada(cortesIncluidos = [asado, entrania, chori])
+	
+	//comensal vegetariano
+	const comensalVegeta = new Vegetariano(peso = 68500)
+	comensalVegeta.comer(provo)
+	comensalVegeta.comer(patyveggie)
+	comensalVegeta.comer(patyveggie)
+	
+	//comensal hambre popular
+	const samid = new HambrePopular(peso = 85000)
+	samid.comer(parri)
+	
+	//comensal paladar fino
+	const finoli = new PaladarFino()
+	
+	// cocina
+	cocina.comidas([parri, paty, patyveggie, provo, burger])
+	
+	
+	//test comidas
+	assert.equals(80, paty.valoracion())
+	assert.equals(122, patyveggie.valoracion())
+	assert.that(provo.esEspecial())
+	assert.equals(147, parri.valoracion())
+	
+	//test comensales
+	assert.that(comensalVegeta.satisfecho())
+	assert.notThat(samid.satisfecho())
+	assert.that(finoli.leAgrada(burger))
+	assert.notThat(finoli.leAgrada(paty))	
+	
+	//test cocina
+	assert.notThat(cocina.tieneBuenaOfertaVegetariana())
+	assert.equals(parri, cocina.platoFuerteCarnivoro())
+	
+	cocina.elegirPlatoPara(comensalVegeta) //elige patyveggie
+	assert.equals([parri, paty, provo, burger], cocina.comidas()) //lo saca de la lista de comidas de la cocina
+	assert.equals([provo, patyveggie, patyveggie, patyveggie], comensalVegeta.comidas()) //se lo da de comer a comensalVegeta
+	
+	cocina.elegirPlatoPara(comensalVegeta) // ahora tira error porque no hay más platos que le gusten a este comensal
+}
